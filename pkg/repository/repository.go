@@ -48,6 +48,7 @@ type User interface {
 	UpdateProfile(c *gin.Context, data userModel.UserProfileUpdateDataModel) (userModel.UserJSONBModel, error)
 	GetUserCompany(userId, domainId int) (companyModel.CompanyDbModelEx, error)
 	AccessCheck(userId, domainId int, value rbacModel.RoleValueModel) (bool, error)
+	GetAllRoles(user userModel.UserIdentityModel) (*userModel.UserRoleModel, error)
 }
 
 type Admin interface {

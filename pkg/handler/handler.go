@@ -89,6 +89,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		// URL: /user/access/check
 		user.POST(route.USER_CHECK_ACCESS_ROUTE, h.accessCheck)
 
+		// URL: /user/role/get/all
+		user.POST(route.USER_ROLES+"/"+route.GET_ALL_ROUTE, h.getUserRoles)
+
 		// URL: /user/profile
 		profile := user.Group(route.USER_PROFILE_ROUTE)
 		{

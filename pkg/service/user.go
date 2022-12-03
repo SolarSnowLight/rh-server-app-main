@@ -40,3 +40,7 @@ func (s *UserService) GetUserCompany(userId, domainId int) (companyModel.Company
 func (s *UserService) AccessCheck(userId, domainId int, value rbacModel.RoleValueModel) (bool, error) {
 	return s.repo.AccessCheck(userId, domainId, value)
 }
+
+func (s *UserService) GetAllRoles(user userModel.UserIdentityModel) (*userModel.UserRoleModel, error) {
+	return s.repo.GetAllRoles(user)
+}

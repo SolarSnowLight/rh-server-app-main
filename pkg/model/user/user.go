@@ -85,3 +85,8 @@ type UserAuthTypeModel struct {
 type UserEmailModel struct {
 	Email string `json:"email" db:"email"`
 }
+
+/* Структура для ролей пользователя*/
+type UserRoleModel struct {
+	Roles []string `json:"roles" binding:"required"`
+}

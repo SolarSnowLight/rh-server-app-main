@@ -233,3 +233,26 @@ func (r *UserPostgres) AccessCheck(userId, domainId int, value rbacModel.RoleVal
 
 	return result, nil
 }
+
+/* Метод для получения информации о всех ролях пользователя (функциональные модули пользователя) */
+func (r *UserPostgres) GetAllRoles(user userModel.UserIdentityModel) (*userModel.UserRoleModel, error) {
+	query := fmt.Sprintf(`
+			SELECT DISTINCT tl.value 
+			FROM %s tr
+			JOIN %s tl ON (tl.id = tr.v1::integer AND tr.ptype = 'g')
+			WHERE
+				tr.v2 = $1 AND 
+				tr.v0 = $2
+	`, tableConstant.RULES_TABLE, tableConstant.ROLES_TABLE)
+
+	var roles []string
+
+	err := r.db.Select(&roles, query, user.DomainId, user.UserId)
+	if err != nil {
+		return nil, err
+	}
+
+	return &userModel.UserRoleModel{
+		Roles: roles,
+	}, nil
+}

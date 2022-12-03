@@ -113,7 +113,7 @@ func (h *Handler) getUserCompany(c *gin.Context) {
 // @Failure 400,404 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Failure default {object} errorResponse
-// @Router /user/company/get [post]
+// @Router /user/role/get/all [post]
 func (h *Handler) getUserRoles(c *gin.Context) {
 	userId, domainId, err := getContextUserInfo(c)
 	if err != nil {
@@ -121,17 +121,17 @@ func (h *Handler) getUserRoles(c *gin.Context) {
 		return
 	}
 
-	data, err := h.services.User.GetUserCompany(userId, domainId)
+	data, err := h.services.User.GetAllRoles(userModel.UserIdentityModel{
+		UserId:   userId,
+		DomainId: domainId,
+	})
+
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	if len(data.Uuid) <= 0 {
-		c.JSON(http.StatusOK, nil)
-	} else {
-		c.JSON(http.StatusOK, data)
-	}
+	c.JSON(http.StatusOK, data)
 }
 
 // @Summary CheckAccess
